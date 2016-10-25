@@ -1,14 +1,12 @@
-# For Mac and linux
 XTENSA		?=
+
+# Mac and linux
 SDK_BASE	?= /tools/esp8266/sdk/ESP8266_NONOS_SDK
 ESPTOOL		?= /tools/esp8266/esptool/esptool.py
 
-# For Windows
-# Default install location of unofficial development kit for esp8266 on Windows is C:/Espressif
-# XTENSA		?= C:/Espressif/xtensa-lx106-elf/bin/
-# SDK_BASE		?= C:/Espressif/ESP8266_SDK
-# ESPTOOL		?= C:/Espressif/utils/ESP8266/esptool.exe
-
+# Windows with unofficial dev kit (default install location is C:/Espressif)
+# SDK_BASE	?= C:/Espressif/ESP8266_SDK
+# ESPTOOL	?= C:/Espressif/utils/ESP8266/esptool.py
 
 SDK_LIBS 	:= -lc -lgcc -lhal -lphy -lpp -lnet80211 -lwpa -lmain -llwip -lcrypto -ljson
 CC			:= $(XTENSA)xtensa-lx106-elf-gcc
@@ -43,7 +41,6 @@ main.o:
 clean:
 	rm -rf *.o *.bin *.a *.out
 
-# On Mac & Linux, for example:	
 flash:
 	$(ESPTOOL) --port /dev/tty.SLAB_USBtoUART \
 			   --baud 480600 \
@@ -51,14 +48,5 @@ flash:
 			   0x00000 main0x00000.bin \
 			   0x10000 main0x10000.bin \
 			   0x3fc000 $(SDK_BASE)/bin/esp_init_data_default.bin
-
-# On windows, for example:
-# flash:
-# 	$(ESPTOOL) --port COM3 \
-# 			   --baud 480600 \
-# 			   write_flash --flash_freq 40m --flash_mode dio --flash_size 32m \
-# 			   0x00000 main0x00000.bin \
-# 			   0x10000 main0x10000.bin \
-# 			   0x3fc000 $(SDK_BASE)/bin/esp_init_data_default.bin
 
 .PHONY: all clean
