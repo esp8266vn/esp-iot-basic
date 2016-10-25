@@ -1,6 +1,13 @@
 XTENSA		?=
+
+# Mac and linux
 SDK_BASE	?= /tools/esp8266/sdk/ESP8266_NONOS_SDK
 ESPTOOL		?= /tools/esp8266/esptool/esptool.py
+
+# Windows with unofficial dev kit (default install location is C:/Espressif)
+# SDK_BASE	?= C:/Espressif/ESP8266_SDK
+# ESPTOOL	?= C:/Espressif/utils/ESP8266/esptool.py
+
 SDK_LIBS 	:= -lc -lgcc -lhal -lphy -lpp -lnet80211 -lwpa -lmain -llwip -lcrypto -ljson
 CC			:= $(XTENSA)xtensa-lx106-elf-gcc
 LD			:= $(XTENSA)xtensa-lx106-elf-gcc
@@ -33,7 +40,7 @@ main.o:
 	
 clean:
 	rm -rf *.o *.bin *.a *.out
-	
+
 flash:
 	$(ESPTOOL) --port /dev/tty.SLAB_USBtoUART \
 			   --baud 480600 \
